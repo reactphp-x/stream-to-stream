@@ -25,9 +25,14 @@ use React\EventLoop\Loop;
 use React\Stream\ThroughStream;
 use ReactphpX\StreamToStream\StreamToStream;
 
+$read1 = new ThroughStream();
+$read2 = new ThroughStream();
+$write1 = new ThroughStream();
+$write2 = new ThroughStream();
+
 // 创建流
-$inputStream = new ThroughStream();
-$outputStream = new ThroughStream();
+$inputStream = new CompositeStream($read1, $write1);
+$outputStream = new CompositeStream($read2, $write2);
 
 // 创建 StreamToStream 实例
 $streamToStream = StreamToStream::create();
@@ -37,14 +42,14 @@ $inMapBuffer = function($data) {
     return "Received: " . $data;
 };
 
+// 设置输出数据转换函数
+$outMapBuffer = function($data) {
+    return "Echo: " . $data;
+};
+
 // 连接流并应用转换
 $streamToStream->from($inputStream, $inMapBuffer)
-              ->bridge($outputStream);
-
-// 处理输出数据
-$outputStream->on('data', function($data) {
-    echo $data . PHP_EOL;
-});
+              ->bridge($outputStream, $outMapBuffer);
 
 // 写入数据
 $inputStream->write("Hello World");
