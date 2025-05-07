@@ -1,0 +1,27 @@
+{
+    "name": "reactphp-x/stream-to-stream",
+    "require": {
+        "react/stream": "^1.4",
+        "react/promise": "^3.2"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^10.0"
+    },
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "ReactphpX\\StreamToStream\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
+    },
+    "authors": [
+        {
+            "name": "wpjscc",
+            "email": "wpjscc@gmail.com"
+        }
+    ]
+}
